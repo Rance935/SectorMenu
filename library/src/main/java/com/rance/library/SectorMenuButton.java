@@ -1074,67 +1074,8 @@ public class SectorMenuButton extends View implements ValueAnimator.AnimatorUpda
                 canvas.concat(matrixArray[i]);
                 ButtonData buttonData = SectorMenuButton.buttonDatas.get(i);
                 SectorMenuButton.drawButton(canvas, paint, buttonData);
-                if (i == 0 && clickIndex == 0) {
-                    performRipple();
-                }
                 canvas.restore();
             }
-        }
-
-        private void performRipple() {
-            if (getRippleState() == IDLE) {
-                ripple(0, SectorMenuButton.pressPointF.x, SectorMenuButton.pressPointF.y);
-                setRippleState(RIPPLING);
-            }
-        }
-
-        private void ripple(int index, float pressX, float pressY) {
-            if (index < 0 || !SectorMenuButton.rippleEffect) {
-                return;
-            }
-            SectorMenuButton.resetRippleInfo();
-            ButtonData buttonData = SectorMenuButton.buttonDatas.get(index);
-            RectF rectF = SectorMenuButton.buttonRects.get(buttonData);
-            float centerX = rectF.centerX();
-            float centerY = rectF.centerY();
-            float radius = rectF.centerX() - rectF.left;
-            float distanceX = pressX - centerX;
-            float distanceY = pressY - centerY;
-            float pressToCenterDistance = (float) Math.sqrt(distanceX * distanceX + distanceY * distanceY);
-            if (pressToCenterDistance > radius) {
-                return;
-            }
-            SectorMenuButton.rippleInfo.pressX = pressX;
-            SectorMenuButton.rippleInfo.pressY = pressY;
-            SectorMenuButton.rippleInfo.buttonIndex = index;
-            SectorMenuButton.rippleInfo.rippleRadius = radius + pressToCenterDistance;
-            SectorMenuButton.rippleInfo.rippleColor = getRippleColor(SectorMenuButton.rippleColor == Integer.MIN_VALUE ?
-                    buttonData.getBackgroundColor() : SectorMenuButton.rippleColor);
-
-            rippleRadius = SectorMenuButton.rippleInfo.rippleRadius;
-            startRippleAnimator();
-        }
-
-        private int getRippleColor(int color) {
-            if (SectorMenuButton.rippleColor != Integer.MIN_VALUE) {
-                return SectorMenuButton.rippleColor;
-            }
-            if (SectorMenuButton.rippleInfo.rippleColor != Integer.MIN_VALUE) {
-                return SectorMenuButton.rippleInfo.rippleColor;
-            }
-
-            if (color == SectorMenuButton.getLighterColor(color)) {
-                return SectorMenuButton.getDarkerColor(color);
-            } else {
-                return SectorMenuButton.getLighterColor(color);
-            }
-        }
-
-        private void startRippleAnimator() {
-            if (touchRippleAnimator.isRunning()) {
-                touchRippleAnimator.cancel();
-            }
-            touchRippleAnimator.start();
         }
     }
 

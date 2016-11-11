@@ -10,6 +10,10 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        //RenderScript向下兼容
+        renderscriptTargetApi 18
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
